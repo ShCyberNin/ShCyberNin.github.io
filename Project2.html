@@ -1,0 +1,284 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Vulnerability Detection and Mitigation Implementation</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<a href="index.html" class="logo">ShCyberNin</a>
+				</header>
+
+			<!-- Nav -->
+			<nav id="nav">
+				<ul class="links">
+					<li class="active"><a href="index.html">Shahril's Space</a></li>
+					<li><a href="https://raw.githubusercontent.com/ShCyberNin/ShCyberNin.github.io/main/Resume.pdf" download>Download my resume</a></li>
+				</ul>
+				<ul class="icons">
+					<li><a href="https://github.com/ShCyberNin" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+					<li><a href="https://www.linkedin.com/in/mdshahrilcyber" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+				</ul>
+			</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<h1>CVE-2022-23046<br />
+									Vulnerability Detection and Mitigation Implementation</h1>
+							<section>
+								<h3>Introduction</h3>
+								<p>This report provides a comprehensive analysis of CVE-2022-23046, a critical SQL injection vulnerability identified in the PhpIPAM v1.4.4 open-source IP address management system. This report aims to provide a deep understanding of the vulnerability's technical aspects, its potential impact on affected systems, and how this vulnerability can be exploited. Additionally, this report will provide a detailed plan for both detecting and mitigating the CVE-2022-23046 vulnerability.</p>	
+								<p>CVE-2022-23046 has emerged as a critical security vulnerability, capturing the attention of the cybersecurity community because it can be exploited remotely without requiring any user interaction. Classified as "critical," this vulnerability stands out for its capacity to be exploited remotely without requiring any user interaction. Unlike numerous vulnerabilities that hinge on deceiving users into specific actions, such as clicking malicious links or opening harmful attachments, CVE-2022-23046 poses a threat without such prerequisites.</p>
+								<p>In short, this report aims to offer a comprehensive understanding of CVE-2022-23046, highlighting its criticality and potential impact for organizations utilizing the PhpIPAM v1.4.4 system and provides a step-by-step guide for both identifying and mitigating this critical vulnerability.</p>								
+							</section>
+							
+							<section>
+								<h3>CVE-2022-23046 Vulnerability Description</h3>
+								<p>CVE-2022-23046 is a critical SQL injection vulnerability identified in PhpIPAM v1.4.4, an IP address management system used in web-based applications. SQL injection is a well-recognized security flaw that can be exploited in web applications. It enables malicious actors to inject harmful SQL code into database queries, thereby gaining unauthorized access to sensitive data, manipulating data, or executing arbitrary SQL commands.</p>
+								<p>The specific component susceptible to this vulnerability is the "app/admin/routing/edit-bgp-mapping-search.php" file. This file serves as a key feature for authenticated admin users, enabling them to conduct subnet searches efficiently. This vulnerability is caused by the application’s failure to properly validate the "subnet" parameter before it is incorporated into SQL queries.</p>
+								<p>To successfully exploit CVE-2022-23046, an attacker must initially authenticate themselves as an admin user through the PhpIPAM web interface. The significance of this requirement cannot be understated, as admin users wield considerable privileges within the system, making them high-value targets. Once authenticated, the attacker can exploit this vulnerability by injecting malicious SQL code into the "subnet" parameter within the search function. This malicious code execution allows the attacker to execute arbitrary SQL commands directly on the database server.</p>
+								<p>The consequence of exploiting this vulnerability is severe, including unauthorized access to sensitive data like user credentials and network configurations. Additionally, attackers gain the ability to manipulate or delete critical data, which could lead to data corruption or loss. Given its potential for executing arbitrary SQL code, this SQL injection vulnerability poses a severe threat to the security, integrity, and confidentiality of PhpIPAM v1.4.4 installations.</p>
+							</section>
+						
+							<section>
+								<h3>Potential Exploitation Scenarios</h3>
+								<p>The SQL injection vulnerability, CVE-2022-23046, opens the door for attackers to engage in various malicious activities, including unauthorized access to sensitive data, data manipulation, and even compromising the integrity of the underlying server. This vulnerability empowers malevolent actors to inject harmful SQL code into the application's database queries, bypassing authentication and authorization mechanisms, which can have a variety of negative consequences.</p>
+								<p>In one potential exploitation scenario, an attacker could exploit CVE-2022-23046 to infiltrate the client database of a financial website. They could access critical information such as usernames, passwords, and credit card details. With this confidential data, the attacker can then conduct unauthorized transactions, transferring funds to their own accounts or doing fraudulent activities. The implications of such actions are substantial, as they expose affected individuals and organizations to considerable financial risks and potential legal repercussions.</p>
+								<p>Similarly, in another potential exploitation scenario, an attacker could exploit CVE-2022-23046 to gain unauthorized access to private patient records in a health care system, getting sensitive data like medical histories, diagnoses, and treatment plans, becomes a real possibility. This confidential information serves as an asset for malicious purposes, like identity theft and insurance fraud to extortion. The exploitation of this vulnerability not only violates patient privacy but also compromises the integrity of healthcare institutions, which then can lead to severe legal and reputational consequences.</p>
+								<p>In summary, the ramifications of CVE-2022-23046 are profound, entailing financial losses, legal liabilities, and damage to reputation. To effectively mitigate these risks, developers and security experts should implement rigorous security measures, including meticulous code reviews, routine security audits, and timely application updates. These proactive steps are important in addressing and pre-empting SQL injection vulnerabilities, thereby safeguarding critical data and systems.</p>
+							</section>
+							
+							<section>
+								<h3>Impact Levels</h3>
+								<p>The level of access or control that an attacker can gain upon exploiting the CVE-2022-23046 vulnerability depends on how the vulnerability is exploited. In the worst-case scenario, an attacker could achieve privilege escalation, gaining full administrative privileges to the underlying database server. This would allow the attacker to perform any malicious action they desire, such as stealing sensitive data, modifying, or deleting data, or even executing arbitrary code.</p>
+								<p>However, it is also possible that an attacker could only gain read-only access to the database without privilege escalation. This would still give the attacker access to sensitive data, but it would limit their ability to modify or delete data.</p>
+								<p>The specific level of access that an attacker can gain will also depend on the privileges of the user account that they exploit to leverage the vulnerability. In one example scenario, an attacker could exploit the vulnerability using a low-privileged user account to gain read-only access to the database. This would still give the attacker access to sensitive data, such as customer records, but it would limit their ability to modify or delete data.</p>
+								<p>The impact level may vary depending on factors like the attacker's expertise, the security measures in place, and the specific vulnerabilities present in the targeted system. However, it's crucial to understand that any level of exploitation can have serious consequences, making it essential to detect and mitigate this vulnerability urgently.</p>
+							</section>
+
+							<section>
+								<h3>Affected Systems and Components</h3>
+								<p>The vulnerability, CVE-2022-23046, poses a significant threat to systems running PhpIPAM v1.4.4, an open-source IP address management solution widely used by network administrators to efficiently manage their IP address space and associated assets.</p>
+								<p>This vulnerability stems from a critical deficiency in input validation within the application's code, opening the door to SQL injection attacks. Exploiting this weakness, an attacker can inject malicious SQL code into the application's database queries, potentially gaining unauthorized access, manipulating data, or compromising the underlying server.</p>
+								<p>While the immediate impact is felt by the PhpIPAM v1.4.4 system itself, the potential reach of this vulnerability within an organization's network should not be underestimated. If left unaddressed, the vulnerability can have cascading effects, endangering the confidentiality, integrity, and availability of critical data and systems connected to PhpIPAM.</p>
+								<p>To effectively mitigate this vulnerability, organizations utilizing PhpIPAM v1.4.4 must take immediate actions. This includes applying security updates and patches to the PhplPAM system immediately. Moreover, implementing robust secure coding practices like input validation and parameterized queries across their applications is essential to thwart potential SQL injection attacks not only in PhpIPAM but also in other software components.</p>
+							</section>
+
+							<section>
+								<h3>Detecting Exploitation of CVE-2022-23046</h3>
+								<p>One way to detect the exploitation of CVE-2022-23046 is to monitor for suspicious activity in the PhpIPAM database logs. Attackers who exploit this vulnerability will likely inject malicious SQL code into the database queries, which will be logged. By monitoring for unusual database activity, such as a sudden increase in the number of failed logins attempts or the execution of unexpected queries, organizations can identify potential exploitation attempts.</p>
+
+								<p>This system should include the following components:</p>
+								<ul>
+								<li><strong>Logging Configuration</strong>: Ensure that database logs are configured to capture detailed information about queries, especially those originating from the PhpIPAM application. Logs should record the source IP, query content, timestamp, and user context.</li>
+								<li><strong>Log Analysis</strong>: Utilize log analysis tools and techniques to monitor the database logs for suspicious activities. Specifically, look for unusual query patterns, such as SQL statements containing unexpected or malicious content. These may include UNION-based SQL injections, Boolean-based blind SQL injections, or time-based blind SQL injections.</li>
+								<li><strong>Thresholds and Alerts</strong>: Set up thresholds for query patterns that are indicative of exploitation attempts. For example, an excessive number of failed logins attempts, or the execution of specific unauthorized queries should trigger alerts.</li>
+								<li><strong>Real-time Monitoring</strong>: Implement real-time monitoring to respond swiftly to potential exploitation attempts. Automated scripts can continuously parse logs and generate alerts when suspicious activity is detected.</li>
+								</ul>
+
+								<p>Organizations can also use a Web Application Firewall (WAF) to detect exploitation of CVE-2022-23046. A WAF can be configured to block suspicious traffic to the PhpIPAM web application, such as requests that contain malicious SQL code.</p>
+								<ul>
+								<li><strong>Configuration</strong>: Properly configure the WAF to sit in front of the PhpIPAM web application. Customize WAF rules to specifically target SQL injection attack patterns, such as SQL keywords or known malicious payloads.</li>
+								<li><strong>Regular Updates</strong>: Keep the WAF ruleset up to date to protect against emerging threats. WAF vendors often release updates and patches to cover new attack vectors.</li>
+								<li><strong>Blocking and Logging</strong>: Configure the WAF to both block and log potentially malicious requests. Blocked requests should trigger a response, such as a 403 Forbidden error, while logged requests can be reviewed for further analysis.</li>
+								<li><strong>Rate Limiting</strong>: Implement rate limiting to restrict the number of requests from a single IP address or user within a specific time frame. This can help mitigate the impact of brute-force attacks, including SQL injection attempts.</li>
+								</ul>
+
+								<p>The following tools can be used to implement the above detection approaches:</p>
+								
+								<li><strong>SIEM systems</strong> – Splunk, Wazuh, Elastic Stack, IBM Qradar</li>
+								<li><strong>WAFs</strong> – Cloudfare WAF, Imperva WAF, Sucuri WAF</li>
+
+								<p><strong>Wazuh will be used to detect CVE-2022-23046.</strong></p>
+							</section>
+
+							<section>
+								<h3>Technical Design for Detecting Exploitation of CVE-2022-23046</h3>
+								<p>To implement the detection of CVE-2022-23046 in PhpIPAM, a log management system or SIEM tool is employed to gather comprehensive database logs, encompassing login attempts and queries.</p>
+								<p>Alerts are configured for anomalous login patterns, carefully distinguishing between potential attacks and user errors. Expected database query patterns are defined, employing anomaly detection to spot deviations and trigger alerts for suspicious activities. Detection of malicious SQL code is accomplished through a signature-based approach, consistently updated to address emerging threats.</p>
+								<p>In the configuration of logs and alerts, a focus is maintained on capturing critical details like timestamps, suspicious logs, and user information, with periodic reviews to strike a balance between information richness and storage efficiency. Alerts are configured to furnish contextual information for an efficient incident response.</p>
+								<p>Once the logs are successfully gathered, it is important to define what qualifies as suspicious activity. This definition may vary depending on the organization's specific context and how PhpIPAM is used. However, suspicious activity can include:</p>
+								
+								<li>Multiple failed login attempts within a short period from the same IP address.</li>
+								<li>Queries containing SQL injection keywords or patterns.</li>
+								<li>Unusual query patterns, such as requests for large amounts of data or data from restricted areas.</li>
+							</br>
+								<p>For investigation and response, a structured workflow is established for timely analysis, with prioritization based on severity. Detailed forensic analysis capabilities are implemented to trace the source and impact of suspicious activities, complemented by real-time investigation tools for swift responses.</p>
+								<p>In terms of documentation, a clear audit trail is maintained, incorporating screenshots of detected CVE-2022-23046 exploitation attempts. A comprehensive documentation process outlines the steps taken during investigation and response.</p>
+								<p>Lastly, a commitment to continuous improvement is emphasized, with the learning derived from each incident contributing to the enhancement of detection mechanisms. Regular updates are instituted to adapt to emerging threats and changes in PhpIPAM usage patterns.</p>
+								<p>This approach provides a systematic and proactive method for recognizing and addressing security threats within the PhpIPAM environment.</p>
+							</section>
+
+							<section>
+								<h3>Detecting CVE-2022-23046 in Wazuh: Step by Step Documentation</h3>
+								
+								<h3>Prerequisites:</h3>								
+									<li>Wazuh Server installed on dedicated machine.</li>
+									<li>Wazuh Agent installed on endpoint client.</li>
+									<li>PHPipam v1.4 installed on endpoint client.</li></br>								
+								
+								<h3>Steps in setting up the test environment:</h3>
+								
+								<table style="margin: auto;">
+									<tr>
+										<th style="text-align: center;">System</th>
+										<th style="text-align: center;">User</th>
+										<th style="text-align: center;">Password</th>
+									  </tr>
+									<tr>
+									  <td><strong>Wazuh Server credentials:</strong></td>
+									  <td>wazuh-user</td>
+									  <td>wazuh</td>
+									</tr>
+									<tr>
+									  <td><strong>Wazuh dashboard credentials:</strong></td>
+									  <td>admin</td>
+									  <td>admin</td>
+									</tr>
+									<tr>
+									  <td><strong>Endpoint client credentials:</strong></td>
+									  <td>UbuntuClient2</td>
+									  <td>30D12g91@1234567</td>
+									</tr>
+									<tr>
+									  <td><strong>PHPipam credentials:</strong></td>
+									  <td>admin</td>
+									  <td>30D12g91@1234567</td>
+									</tr>
+								  </table>								  
+
+								<p>Before initiating the detection process for CVE-2022-23046 in PhpIPAM using Wazuh, ensure the proper setup of the Wazuh server and agent. The Wazuh server should be installed on a dedicated machine, and the Wazuh agent must be deployed on the server running Apache (PhpIPAM). Ensure seamless communication between the Wazuh server and agent.</p>
+								<p>For this project, we will be using Wazuh Open Virtual Appliance (OVA) format. This is a prebuild virtual machine image that will run as the Wazuh Server. This Wazuh OVA can be downloaded from Wazuh official website.</p>
+								<p>Once installed, we will get a login page as shown in figure 1.</p>
+								<img src="figure1.jpg" alt="Wazuh Server login page">
+								<p>We then key in the credentials provided and this will log us into Wazuh Server as shown in figure 2.</p>
+								<img src="figure2.jpg" alt="Wazuh Server login successfully">
+								<p>Through this interface, we can access the configuration files that are used for the different settings of Wazuh.</p>
+								<p>This configuration files can be found at:</p>								
+									<li>Wazuh manager: /var/ossec/etc/ossec.conf</li>
+									<li>Wazuh indexer: /etc/wazuh-indexer/opensearch.yml</li>
+									<li>Filebeat-OSS: /etc/filebeat/filebeat.yml</li>								
+								<p>Once logged into Wazuh Server, we can then head to the Wazuh dashboard by keying in the IP address of our Wazuh sever into a browser. This will bring us to our Wazuh server dashboard user interface.  Log-in using the credentials as stated in the beginning of this section.</p>
+								<img src="figure3.jpg" alt="Wazuh Dashboard">
+								<p>The Wazuh dashboard as shown in figure 3 above, is like a command center for security. It helps users keep a close eye on their system's security. With real-time updates and easy-to-understand visuals, users can quickly see if anything suspicious is happening. The dashboard gives a snapshot of security data, making it simple to spot trends or potential threats. It's a go-to tool for security professionals and administrators to stay on top of cybersecurity, allowing them to respond swiftly to any issues that arise.</p>
+								<p>To install the Wazuh Agent on our endpoint client, we can use the Wazuh dashboard to assist in setting it up. Go to the Agent tab in the dashboard and follow the on-screen instructions as seen in figure 4 below.</p>
+								<img src="figure4.jpg" alt="Deploy new agent">
+								<p>At the end of the page, it will present a set of commands for you to copy and run on your endpoint client host. An example of the set of commands:</p>
+								<p><strong>wget</strong> https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.6.0-1_amd64.deb && <strong>sudo WAZUH_MANAGER='10.0.0.6' WAZUH_AGENT_GROUP='default' WAZUH_AGENT_NAME='Agent'</strong> dpkg -i ./wazuh-agent_4.6.0-1_amd64.deb</p>
+								<img src="figure5.jpg" alt="Commands to run on Client Agent workstation">
+								<p>Confirm successful communication by checking the Wazuh manager's dashboard, where the new agent should be listed in the "Agents" section and is active. This ensures a secure, real-time communication channel, allowing the Wazuh manager to effectively monitor and process data from the newly installed agent.</p>
+								<img src="figure6.jpg" alt="Newly added agent is active and running">
+								
+								<h3>Setting Up Alerts:</h3>
+								<p><strong>Configure Email Notifications:</strong> Modify the Wazuh configuration file to set up email notifications. Define the SMTP server, sender, and recipient details to ensure timely alert notifications.</p>
+								<p>To enable email notifications from Wazuh, modify the email settings in the ossec.conf file's &lt;global&gt; section. This should be done in the Wazuh Server machine. The following figure 7 is an example. Make sure to restart the wazuh manager after editing the conf file with the command ‘systemctl restart wazuh-manager’.</p>
+								<img src="figure7.jpg" alt="Email configuration">
+								<p><strong>Create a New Rule for CVE-2022-23046:</strong> To set a specific rule to detect CVE-2022-23046, we would need to edit the local_rules.xml file. This can be found at ‘/var/ossec/etc/rules/local_rules.xml’ on our Wazuh Server machine. Specify conditions and actions in this file to detect the CVE-2022-23046 vulnerability (refer to figure 10 for example).</p>
+								
+								<h3>Audit Trails</h3>
+								<p>In a controlled environment, we executed the CVE-2022-23046 vulnerability exploit, closely monitoring Apache logs through an audit trail. Specifically focusing on login attempts, we compared the obtained logs with the baseline, identifying distinct patterns indicative of exploit attempts. This meticulous analysis serves as a foundation for crafting targeted rules in Wazuh to enhance detection capabilities, providing proactive security measures against potential exploitation in real-world scenarios.</p>
+								<img src="figure8.jpg" alt="Logs for successful login attempts">
+								<img src="figure9.jpg" alt="Logs for CVE-2022-23046 exploit">
+								<p>Leveraging the audit trail logs in figure 8 and 9, we utilized the observed patterns to establish targeted rules in Wazuh, enabling the detection of malicious attempts associated with CVE-2022-23046. These rules specifically focus on identifying successful login attempts and BGP mapping search attempts, enhancing our ability to proactively detect and mitigate potential exploitation in PHPipam v1.4.4.</p>
+								<img src="figure10.jpg" alt="Defining rules to detect CVE-2022-23046 vulnerability">
+								
+								<h3>Configuration for Wazuh Agent:</h3>
+								<p><strong>Integrate Apache Logs with Wazuh:</strong> Edit the Wazuh agent configuration file to include Apache logs. This can be done by configuring the agent.conf file located at ‘/var/ossec/etc/shared’.</p>
+								<p>Add the following line as seen in figure 11 below to the configuration file.</p>
+								<img src="figure11.jpg" alt="Agent.conf file">
+								<p>This set of lines will read the logs from the &lt;location&gt; and access the ‘phpipam-access_log’ file. This file is the necessary file required for us to detect attempts to our phpipam server.</p>
+								<p>Restart the Wazuh agent to apply the changes.</p>
+								<p><strong>Generate Logs for CVE-2022-23046:</strong> Simulate an attack to exploit CVE-2022-23046 in our endpoint machine. Confirm that the Apache logs (phpipam-access_log) capture the suspicious activity.</p>
+								<img src="figure12.jpg" alt="Exploit being carried out (note the timestamp)">
+								<img src="figure13.jpg" alt="Logs gathered from the exploit (note the timestamp)">
+								<p>From figure 12 and 13, we can confirm that a BGP mapping search attempt was carried out from the logs that was gathered.</p>
+								
+								<h3>Verification in Wazuh:</h3>
+								<p><strong>View Detected CVE-2022-23046 in Wazuh UI:</strong> Access the Wazuh web interface and navigate to the alerts section. Verify that the alert for CVE-2022-23046 is displayed, providing a detailed overview of the detected vulnerability.</p>
+								<img src="figure14.jpg" alt="Successful detection of exploit">
+								<p>From figure 14 above, we can see the Wazuh have successfully detected this attempted exploit on our PHPipam server. It detected and alert on a BGP mapping search attempt.</p>
+								<p>We can also view more detailed information from Wazuh by clicking the alerts. In figure 15 below, we can view information such as IP address, client name, data URL, and many more.</p>
+								<img src="figure15.jpg" alt="Detailed view of alert">
+								
+								<h3>Conclusion:</h3>
+								<p><strong>Review and Continuous Improvement:</strong> Regularly review and update rules based on emerging threats. Utilize insights gained from each incident to enhance the detection and response capabilities of Wazuh, ensuring continuous improvement in security measures.</p>
+							</section>
+
+							<section>
+								<h3>Mitigating Exploitation of CVE-2022-23046</h3>
+								<p>Addressing the CVE-2022-23046 vulnerability in PhpIPAM v1.4.4 requires the development of a comprehensive security strategy, consisting of several essential components.</p>
+
+								<p>To begin, a strong emphasis is placed on input validation. Input validation stands as a crucial security protocol, playing a central role in shielding systems from potential vulnerabilities, such as CVE-2022-23046. This process involves a scrutiny of user-provided data to maintain its integrity and avert potential exploitation. To achieve this, certain characters susceptible to malicious attacks, such as single and double quotation marks, are excluded from user inputs.</p>							
+								<p>Furthermore, a robust input validation mechanism extends beyond mere character exclusion. It encompasses the definition of a clear set of allowable characters and specific data formats for each input field in the application. Through this, the system ensures that incoming data strictly adheres to predetermined criteria, rejecting any input that falls outside these established parameters. This proactive strategy not only diminishes the risk of SQL injection attacks but also sets forth precise guidelines governing acceptable input, thereby enhancing the overall security stance of the application.</p>							
+								<p>Regular expressions (regex) play a pivotal role in robust input validation. Regex provides a powerful and versatile mechanism for matching and validating text patterns. By employing regex, developers can effectively enforce input validation rules, ensuring that user-provided data complies with the intended format and preventing malicious inputs from compromising the system.</p>							
+								<p>Consider a user registration form where the username field is designed to accept only alphanumeric characters. Any attempt to input special characters like '$' or '%' would be rejected based on the predetermined regex pattern, fortifying the application against potential exploitation.</p>							
+								<p><strong>Regex validation offers several advantages:</strong></p>
+								
+									<li><strong>Enhanced Security</strong>: Regex patterns can effectively identify and block malicious inputs, safeguarding the application from vulnerabilities like SQL injection attacks.</li>
+									<li><strong>Data Integrity</strong>: Regex ensures that user-provided data adheres to the intended format, promoting data consistency and reducing errors.</li>
+									<li><strong>Improved User Experience</strong>: By providing clear guidelines for acceptable input, regex validation streamlines the user experience, minimizing confusion and frustration.</li>
+															
+								<p>Another crucial aspect of safeguarding the system against CVE-2022-23046 is the implementation of "parameterized queries." This security measure aims to separate user input from database commands, strengthening defenses against potential SQL injection attacks. The core concept behind parameterized queries involves the creation of query templates that contain designated spaces for validated user input. As a result, injecting malicious code becomes significantly more challenging, as user input is treated purely as data and not executable commands.</p>							
+								<p>For example, the following query is not parameterized:</p>
+								<pre>SELECT * FROM users WHERE username = ‘ $_POST[ ‘username’ ] ’</pre>							
+								<p>The next example shows a query that is parameterized:</p>
+								<pre>SELECT * FROM users WHERE username = ?</pre>							
+								<p>This query above, the “?” placeholder is replaced with the user input at runtime. This prevents the user from being interpreted as SQL code.</p>							
+								<p>Finally, maintaining up-to-date versions of the PhpIPAM software is a vital element of this mitigation strategy. These updated releases usually include fixes and patches for known security vulnerabilities, including those related to SQL injection. Consequently, it is important to regularly check for available updates and apply them promptly to preserve system integrity and security.</p>							
+								<p>By following this comprehensive approach, organizations can enhance their defenses against the CVE-2022-23046 vulnerability, ensuring the security and integrity of their systems and data.</p>
+							</section>
+
+							<section>
+								<h3>Detection Limitations and Considerations</h3>
+    							<p>Wazuh is a strong security solution for handling security threats; however, certain limitations should be acknowledged in the context of detecting CVE-2022-23046. The effectiveness of detection depends on the quality and clarity of log data from the target system. If log verbosity is low or entries lack clarity, detection precision may suffer.</p>
+    							<p>Wazuh's effectiveness relies on timely deployment of security rules customized for CVE characteristics. Delays in rule creation or updates can impact the system's responsiveness to emerging threats. Additionally, false positives may occur, requiring careful rule fine-tuning to balance sensitivity and accuracy.</p>
+   								<p>Successful detection assumes identifiable traces in the logs, and variations in attack techniques or obfuscation methods may challenge Wazuh's detection capabilities. Understanding these limitations is crucial for deploying extra security measures and maintaining a comprehensive cybersecurity strategy.</p>
+
+							</section>
+						</div>
+				<!-- Footer -->
+				<footer id="footer">
+					<section class="split contact">
+						<section>
+							<h3>Email</h3>
+							<p><a href="#">md.shahril1991@gmail.com</a></p>
+						</section>
+						<section>
+							<h3>Social</h3>
+							<ul class="icons alt">
+								<li><a href="https://github.com/ShCyberNin" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+    						<li><a href="https://www.linkedin.com/in/mdshahrilcyber" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+						</section>
+					</section>
+				</footer>
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
