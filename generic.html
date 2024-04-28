@@ -68,19 +68,19 @@
 									
 									<p>The attack chain for CVE-2021-40444 is as follows:</p>
 
-									<p>1. The attacker crafts a specially designed Office document, such as a Word or PowerPoint file containing an embedded ActiveX control pointing to a malicious script.
+									<p>1. The attacker crafts a specially designed Office document, such as a Word or PowerPoint file containing an embedded ActiveX control pointing to a malicious script.</p>
 
-									<br/>2. The victim receives and opens the malicious document using a vulnerable version of Microsoft Office (2010, 2013, 2016, 2019, or Microsoft 365).
+									<p>2. The victim receives and opens the malicious document using a vulnerable version of Microsoft Office (2010, 2013, 2016, 2019, or Microsoft 365).</p>
 
-									<br/>3. The MSHTML engine, responsible for rendering HTML content within Office applications, attempts to load the embedded ActiveX control referenced in the document.<br/>
+									<p>3. The MSHTML engine, responsible for rendering HTML content within Office applications, attempts to load the embedded ActiveX control referenced in the document.</p>
 
-									4. The MSHTML engine fails to adequately validate and handle the ActiveX control, allowing the execution of arbitrary code with the user's privileges.<br/>
+									<p>4. The MSHTML engine fails to adequately validate and handle the ActiveX control, allowing the execution of arbitrary code with the user's privileges.</p>
 
-									5. The malicious script within the ActiveX control is downloaded and executed by the MSHTML engine.<br/>
+									<p>5. The malicious script within the ActiveX control is downloaded and executed by the MSHTML engine.</p>
 
-									6. As a result, the attacker gains various capabilities, including the ability to remotely execute arbitrary commands, install malware, access sensitive information without authorization, or potentially achieve a complete compromise of the victim's system.<br/>
+									<p>6. As a result, the attacker gains various capabilities, including the ability to remotely execute arbitrary commands, install malware, access sensitive information without authorization, or potentially achieve a complete compromise of the victim's system.</p>
 
-									7. The extent of the attacker's access depends on the user’s privileges opening the document, potentially allowing them to gain control over the entire system.<br/>
+									<p>7. The extent of the attacker's access depends on the user’s privileges opening the document, potentially allowing them to gain control over the entire system.</p>
 
 									<p>Successful exploitation of CVE-2021-40444 can have severe consequences. By successfully exploiting this vulnerability, an attacker can gain various capabilities and levels of access. They can remotely execute arbitrary commands, allowing them to control the victim's system and execute malicious actions. This includes installing malware, such as keyloggers or ransomware, which can lead to unauthorized access to sensitive information or even the encryption of critical data. Additionally, the attacker can exfiltrate valuable data from the compromised system, such as login credentials, financial information, or intellectual property. In some cases, the attacker can ultimately compromise the targeted system, obtaining complete control. The level of access obtained depends on the user’s privileges that open the document, potentially enabling the attacker to gain control over the entire system.</p><br/>							
 							</section>
