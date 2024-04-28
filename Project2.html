@@ -167,58 +167,73 @@
 								<p>Before initiating the detection process for CVE-2022-23046 in PhpIPAM using Wazuh, ensure the proper setup of the Wazuh server and agent. The Wazuh server should be installed on a dedicated machine, and the Wazuh agent must be deployed on the server running Apache (PhpIPAM). Ensure seamless communication between the Wazuh server and agent.</p>
 								<p>For this project, we will be using Wazuh Open Virtual Appliance (OVA) format. This is a prebuild virtual machine image that will run as the Wazuh Server. This Wazuh OVA can be downloaded from Wazuh official website.</p>
 								<p>Once installed, we will get a login page as shown in figure 1.</p>
-
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture1.png" alt="Wazuh Server login page">
+								</div>
 								<p>We then key in the credentials provided and this will log us into Wazuh Server as shown in figure 2.</p>
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture2.png" alt="Wazuh Server login successfully">
+								</div>
 								<p>Through this interface, we can access the configuration files that are used for the different settings of Wazuh.</p>
 								<p>This configuration files can be found at:</p>								
 									<li>Wazuh manager: /var/ossec/etc/ossec.conf</li>
 									<li>Wazuh indexer: /etc/wazuh-indexer/opensearch.yml</li>
 									<li>Filebeat-OSS: /etc/filebeat/filebeat.yml</li>								
 								<p>Once logged into Wazuh Server, we can then head to the Wazuh dashboard by keying in the IP address of our Wazuh sever into a browser. This will bring us to our Wazuh server dashboard user interface.  Log-in using the credentials as stated in the beginning of this section.</p>
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture3.png" alt="Wazuh Dashboard">
-								<p>The Wazuh dashboard as shown in figure 3 above, is like a command center for security. It helps users keep a close eye on their system's security. With real-time updates and easy-to-understand visuals, users can quickly see if anything suspicious is happening. The dashboard gives a snapshot of security data, making it simple to spot trends or potential threats. It's a go-to tool for security professionals and administrators to stay on top of cybersecurity, allowing them to respond swiftly to any issues that arise.</p>
+								</div><p>The Wazuh dashboard as shown in figure 3 above, is like a command center for security. It helps users keep a close eye on their system's security. With real-time updates and easy-to-understand visuals, users can quickly see if anything suspicious is happening. The dashboard gives a snapshot of security data, making it simple to spot trends or potential threats. It's a go-to tool for security professionals and administrators to stay on top of cybersecurity, allowing them to respond swiftly to any issues that arise.</p>
 								<p>To install the Wazuh Agent on our endpoint client, we can use the Wazuh dashboard to assist in setting it up. Go to the Agent tab in the dashboard and follow the on-screen instructions as seen in figure 4 below.</p>
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture4.png" alt="Deploy new agent">
-								<p>At the end of the page, it will present a set of commands for you to copy and run on your endpoint client host. An example of the set of commands:</p>
+								</div><p>At the end of the page, it will present a set of commands for you to copy and run on your endpoint client host. An example of the set of commands:</p>
 								<p><strong>wget</strong> https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.6.0-1_amd64.deb && <strong>sudo WAZUH_MANAGER='10.0.0.6' WAZUH_AGENT_GROUP='default' WAZUH_AGENT_NAME='Agent'</strong> dpkg -i ./wazuh-agent_4.6.0-1_amd64.deb</p>
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture5.png" alt="Commands to run on Client Agent workstation" width="800px">
-								<p>Confirm successful communication by checking the Wazuh manager's dashboard, where the new agent should be listed in the "Agents" section and is active. This ensures a secure, real-time communication channel, allowing the Wazuh manager to effectively monitor and process data from the newly installed agent.</p>
+								</div><p>Confirm successful communication by checking the Wazuh manager's dashboard, where the new agent should be listed in the "Agents" section and is active. This ensures a secure, real-time communication channel, allowing the Wazuh manager to effectively monitor and process data from the newly installed agent.</p>
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture6.png" alt="Newly added agent is active and running" width="800px">
-								
+								</div>
 								<h3>Setting Up Alerts:</h3>
 								<p><strong>Configure Email Notifications:</strong> Modify the Wazuh configuration file to set up email notifications. Define the SMTP server, sender, and recipient details to ensure timely alert notifications.</p>
 								<p>To enable email notifications from Wazuh, modify the email settings in the ossec.conf file's &lt;global&gt; section. This should be done in the Wazuh Server machine. The following figure 7 is an example. Make sure to restart the wazuh manager after editing the conf file with the command ‘systemctl restart wazuh-manager’.</p>
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture7.png" alt="Email configuration">
+								</div>
 								<p><strong>Create a New Rule for CVE-2022-23046:</strong> To set a specific rule to detect CVE-2022-23046, we would need to edit the local_rules.xml file. This can be found at ‘/var/ossec/etc/rules/local_rules.xml’ on our Wazuh Server machine. Specify conditions and actions in this file to detect the CVE-2022-23046 vulnerability (refer to figure 10 for example).</p>
 								
 								<h3>Audit Trails</h3>
 								<p>In a controlled environment, we executed the CVE-2022-23046 vulnerability exploit, closely monitoring Apache logs through an audit trail. Specifically focusing on login attempts, we compared the obtained logs with the baseline, identifying distinct patterns indicative of exploit attempts. This meticulous analysis serves as a foundation for crafting targeted rules in Wazuh to enhance detection capabilities, providing proactive security measures against potential exploitation in real-world scenarios.</p>
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture8.png" alt="Logs for successful login attempts">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture9.png" alt="Logs for CVE-2022-23046 exploit">
-								<p>Leveraging the audit trail logs in figure 8 and 9, we utilized the observed patterns to establish targeted rules in Wazuh, enabling the detection of malicious attempts associated with CVE-2022-23046. These rules specifically focus on identifying successful login attempts and BGP mapping search attempts, enhancing our ability to proactively detect and mitigate potential exploitation in PHPipam v1.4.4.</p>
+								</div><p>Leveraging the audit trail logs in figure 8 and 9, we utilized the observed patterns to establish targeted rules in Wazuh, enabling the detection of malicious attempts associated with CVE-2022-23046. These rules specifically focus on identifying successful login attempts and BGP mapping search attempts, enhancing our ability to proactively detect and mitigate potential exploitation in PHPipam v1.4.4.</p>
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture10.png" alt="Defining rules to detect CVE-2022-23046 vulnerability">
-								
+								</div>
 								<h3>Configuration for Wazuh Agent:</h3>
 								<p><strong>Integrate Apache Logs with Wazuh:</strong> Edit the Wazuh agent configuration file to include Apache logs. This can be done by configuring the agent.conf file located at ‘/var/ossec/etc/shared’.</p>
 								<p>Add the following line as seen in figure 11 below to the configuration file.</p>
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture11.png" alt="Agent.conf file">
-								<p>This set of lines will read the logs from the &lt;location&gt; and access the ‘phpipam-access_log’ file. This file is the necessary file required for us to detect attempts to our phpipam server.</p>
+								</div><p>This set of lines will read the logs from the &lt;location&gt; and access the ‘phpipam-access_log’ file. This file is the necessary file required for us to detect attempts to our phpipam server.</p>
 								<p>Restart the Wazuh agent to apply the changes.</p>
 								<p><strong>Generate Logs for CVE-2022-23046:</strong> Simulate an attack to exploit CVE-2022-23046 in our endpoint machine. Confirm that the Apache logs (phpipam-access_log) capture the suspicious activity.</p>
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture12.png" alt="Exploit being carried out (note the timestamp)" width="800px">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture13.png" alt="Logs gathered from the exploit (note the timestamp)">
-								<p>From the above 2 images, we can confirm that a BGP mapping search attempt was carried out from the logs that was gathered.</p>
+								</div><p>From the above 2 images, we can confirm that a BGP mapping search attempt was carried out from the logs that was gathered.</p>
 								
 								<h3>Verification in Wazuh:</h3>
 								<p><strong>View Detected CVE-2022-23046 in Wazuh UI:</strong> Access the Wazuh web interface and navigate to the alerts section. Verify that the alert for CVE-2022-23046 is displayed, providing a detailed overview of the detected vulnerability.</p>
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture14.png" alt="Successful detection of exploit" width="800px">
-								<p>From figure 14 above, we can see the Wazuh have successfully detected this attempted exploit on our PHPipam server. It detected and alert on a BGP mapping search attempt.</p>
+								</div><p>From figure 14 above, we can see the Wazuh have successfully detected this attempted exploit on our PHPipam server. It detected and alert on a BGP mapping search attempt.</p>
 								<p>We can also view more detailed information from Wazuh by clicking the alerts. In figure 15 below, we can view information such as IP address, client name, data URL, and many more.</p>
 								
+								<div style="text-align: center;">
 								<img src="CVE-2022-23046 DETECTION WITH WAZUH STRATEGIES AND MITIGATION/Picture15.png" alt="Detailed view of alert" width="800px">
-								
+								</div>
 								<h3>Conclusion:</h3>
 								<p><strong>Review and Continuous Improvement:</strong> Regularly review and update rules based on emerging threats. Utilize insights gained from each incident to enhance the detection and response capabilities of Wazuh, ensuring continuous improvement in security measures.</p>
 							</section>
