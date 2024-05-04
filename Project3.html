@@ -134,11 +134,208 @@ print("Scraped quotes have been saved to scraped_quotes.csv")
                         </div>
                     </section>
 
+                    <section>
+                        <h3 style="text-align: center;">Project 2: Extracting Data on Singaporeans' Net Worth</h3>
+                        <p>For my next challenge, I decided to tackle a real-world problem: compiling information on the net worth of Singaporeans. Using BeautifulSoup and pandas, I scraped data from a Wikipedia page listing Singaporeans by net worth, structured it into a DataFrame, and saved it to an Excel file.</p>
+                        <div style="text-align: center;">
+                            <a href="#" class="image fit"></a><img src="screenshot_quotes.png" alt="Figure 3: Screenshot of the output of running  the wikitest.py script" /></a>
+                            <figcaption>Figure 3: Screenshot of the output of running  the wikitest.py script</figcaption>
+                        </div>
+                        <p>Let's go through the code:</p>
                     
-                            
+                        <div style="text-align: left;">
+                            <pre><code>
+# Import necessary libraries
+from bs4 import BeautifulSoup  # For parsing HTML
+import requests  # For fetching web pages
+import pandas as pd  # For data manipulation and DataFrame creation
 
+# URL of the Wikipedia page containing the list of Singaporeans by net worth
+url = 'https://en.wikipedia.org/wiki/List_of_Singaporeans_by_net_worth'
 
-                
+# Fetch the web page
+page = requests.get(url)
+soup = BeautifulSoup(page.text, 'html.parser')
+
+# Find all tables with class 'wikitable' and access the first one
+tables = soup.find_all('table', class_='wikitable')
+
+# Find all table headers in the first table
+SG_table = tables[0].find_all('th')
+
+# Extract the text of each table header and strip any extra whitespace
+SG_table_head = [title.text.strip() for title in SG_table]
+
+# Create an empty DataFrame with columns from the table headers
+df = pd.DataFrame(columns=SG_table_head)
+
+# Extract data rows
+rows = tables[0].find_all('tr')
+
+# Loop through each row and extract data
+for row in rows:
+    row_data = row.find_all('td')
+    individual_row_data = [data.text.strip() for data in row_data]
+    # Check if the length of the row matches the length of table headers to ensure correct data
+    if len(individual_row_data) == len(SG_table_head):
+        df = pd.concat([df, pd.DataFrame([individual_row_data], columns=SG_table_head)], ignore_index=True)
+
+# Save DataFrame to Excel
+df.to_excel('Crazy_Rich_Asians.xlsx', index=False)
+
+# Print a message
+print("Excel file 'Crazy_Rich_Asians.xlsx' has been saved.")
+
+</code></pre>
+
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <h3>Explanation:</h3>
+                            <ol>
+                                <li>
+                                    <p><strong>Import Libraries:</strong> We import BeautifulSoup for parsing HTML, requests for fetching web pages, and pandas for data manipulation and DataFrame creation.</p>
+                                </li>
+                                <li>
+                                    <p><strong>Fetch the Web Page:</strong> We use requests.get() to send an HTTP GET request to the Wikipedia page URL. The response is stored in the variable page, and we use BeautifulSoup to parse its HTML content.</p>
+                                </li>
+                                <li>
+                                    <p><strong>Find Tables and Headers:</strong> We find all tables on the page with the class 'wikitable'. Then, we access the first table and extract its headers using find_all('th').</p>
+                                </li>
+                                <li>
+                                    <p><strong>Create DataFrame:</strong> We create an empty DataFrame named df with columns from the table headers.</p>
+                                </li>
+                                <li>
+                                    <p><strong>Extract Data Rows:</strong> We loop through each row in the table using find_all('tr'). For each row, we find all cells (td elements) and extract the text from them. If the length of the row matches the length of the table headers, we create a DataFrame row with the extracted data and append it to df.</p>
+                                </li>
+                                <li>
+                                    <p><strong>Save to Excel:</strong> Finally, we save the DataFrame to an Excel file named "Crazy_Rich_Asians.xlsx" using to_excel() method, with index=False to exclude the index column.</p>
+                                </li>
+                            </ol>
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="path/to/figure4.png" alt="Screenshot of the result">
+                            <p>Figure 4: Screenshot of the Crazy_Rich_Asians CSV file created.</p>
+                        </div>
+                        </section>
+
+                        <section>
+                            <h3 style="text-align: center;">Project 3: Extracting Data from Booking.com Listings</h3>
+                            <p>Eager to push my skills further, I took on the task of scraping data from Booking.com listings. This project required me to handle complex web page structures and extract various details about hotels, such as names, prices, scores, and review counts.</p>
+                            <div style="text-align: center;">
+                                <img src="path/to/figure4.png" alt="Figure 5: Screenshot of the output of running  the booking_scraper.py script">
+                                <figcaption>Figure 5: Screenshot of the output of running  the booking_scraper.py script</figcaption>
+                            </div>
+
+                            <p>Let's go through the code:</p>
+
+                            <div style="text-align: left;">
+                                <pre><code>
+from playwright.sync_api import sync_playwright
+import pandas as pd
+
+def main():
+
+    # Launch the Playwright browser
+    with sync_playwright() as p:
+        
+        # Define the check-in and check-out dates
+        checkin_date = '2024-05-17'
+        checkout_date = '2024-05-24'
+
+        # Construct the URL with the provided dates and location (Singapore)
+        page_url = f'https://www.booking.com/searchresults.html?ss=Singapore%2C+Singapore&efdco=1&label=gen173nr-1FCAEoggI46AdIM1gEaMkBiAEBmAExuAEXyAEM2AEB6AEB-AECiAIBqAIDuAKTiMSxBsACAdICJDFmODVhMGM1LTQ2NzYtNDYzNS1hYmUxLTQ1ZTM5ZjhjZDlhY9gCBeACAQ&aid=304142&lang=en-us&sb=1&src_elem=sb&src=index&dest_id=-73635&dest_type=city&checkin={checkin_date}&checkout={checkout_date}&group_adults=2&no_rooms=1&group_children=0'
+
+        # Launch a new browser instance
+        browser = p.chromium.launch(headless=False)
+        
+        # Create a new page
+        page = browser.new_page()
+        
+        # Navigate to the URL with timeout set to 30 seconds
+        page.goto(page_url, timeout=30000)
+
+        # Locate all hotel elements
+        hotels = page.locator('//div[@data-testid="property-card"]').all()
+        
+        # Print the number of hotels found
+        print(f'There are: {len(hotels)} hotels.')
+
+        # Initialize an empty list to store hotel data
+        hotels_list = []
+        
+        # Loop through each hotel and extract data
+        for hotel in hotels:
+            hotel_dict = {}
+
+            # Extract hotel name
+            hotel_dict['hotel'] = hotel.locator('//div[@data-testid="title"]').inner_text()
+            # Extract price
+            hotel_dict['price'] = hotel.locator('//span[@data-testid="price-and-discounted-price"]').inner_text()
+            # Extract score
+            hotel_dict['score'] = hotel.locator('//div[@data-testid="review-score"]/div[1]').inner_text()
+            # Extract average review
+            hotel_dict['avg_review'] = hotel.locator('//div[@data-testid="review-score"]/div[2]/div[1]').inner_text()
+            # Extract review count
+            hotel_dict['review_count'] = hotel.locator('//div[@data-testid="review-score"]/div[2]/div[2]').inner_text()
+
+            # Append the hotel data dictionary to the list
+            hotels_list.append(hotel_dict)
+        
+        # Create a DataFrame from the list of hotel data
+        df = pd.DataFrame(hotels_list)
+        # Save DataFrame to Excel
+        df.to_excel('hotels_list.xlsx', index=False)
+        # Save DataFrame to CSV
+        df.to_csv('hotels_list.csv', index=False)
+
+        # Close the browser
+        browser.close()
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+
+                        <div style="text-align: center;">
+                            <h3>Explanation:</h3>
+                            <ol>
+                                <li>
+                                    <p><strong>Launch Playwright Browser:</strong> We launch the Playwright browser and set the headless mode to False for visibility.</p>
+                                </li>
+                                <li>
+                                    <p><strong>Define URL and Navigate:</strong> We construct the URL with the check-in and check-out dates for Singapore. The dates are specified in the script. Then, we navigate to the URL with a timeout of 30 seconds.</p>
+                                </li>
+                                <li>
+                                    <p><strong>Locate Hotel Elements:</strong> We locate all hotel elements on the page using Playwright's locator method.</p>
+                                </li>
+                                <li>
+                                    <p><strong>Extract Hotel Data:</strong> We loop through each hotel and extract its name, price, score, and review count. These details are specific to the location in Singapore and the dates specified in the script. We store this data in a dictionary and append it to the hotels_list.</p>
+                                </li>
+                                <li>
+                                    <p><strong>Create DataFrame and Save Data:</strong> We create a DataFrame from the list of hotel data. Then, we save the DataFrame to both Excel and CSV files named "hotels_list.xlsx" and "hotels_list.csv" respectively.</p>
+                                </li>
+                                <li>
+                                    <p><strong>Close Browser:</strong> Finally, we close the browser instance.</p>
+                                </li>
+                            </ol>
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="path/to/figure4.png" alt="Figure 6: Screenshot of the CSV file created.">
+                            <figcaption>Figure 6: Screenshot of the CSV file created.</figcaption>
+                        </div>
+
+                        <p>Figure 6 screenshot showcases the result of the code, where data from Booking.com listings has been successfully scraped and saved to Excel and CSV files.</p>
+
+                        <p><strong>Note:</strong> This script captures data only from the first page of Booking.com listings, as I was unsuccessful in writing the script to capture multiple pages. I plan to look into it again in the future and re-edit my script and portfolio post with the final script next time.</p>
+
+                        </section>
+
+                        <section>
+                            <h3>Conclusion</h3>
+                            <p>My journey into web scraping has been both challenging and rewarding. Through hands-on projects and continuous learning, I've acquired the skills needed to extract valuable insights from the vast expanse of the web. However, I recognize that this is just the beginning of my exploration into web scraping.</p>
+                            <p>There is still much to learn, and I am excited to delve deeper into the intricacies of this field in future projects. I plan to implement web scraping with other projects, integrating it into use cases related to cybersecurity, data analysis, and more. By doing so, I aim to not only expand my knowledge but also contribute to solving real-world problems using web scraping techniques.</p>
+                        </section>
+                    </div>   
                 <!-- Footer -->
                 <footer id="footer">
                     <section class="split contact">
